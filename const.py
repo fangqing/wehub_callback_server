@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+BIND_HOST = '127.0.0.1'
+BIND_PORT = 8888
 #当前api文档里支持的actions
 ACTIONS =['login','logout','report_contact','report_new_friend','report_new_msg','pull_task','report_task_result','report_room_member_info']
 

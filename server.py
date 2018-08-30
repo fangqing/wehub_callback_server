@@ -84,8 +84,8 @@ def upload_file():
 	if request.method=='POST':
 		#取出file_index
 		file_index = request.form['file_index']
-		app.logger.info("file_index = {0}".format(file_index))
-		app.logger.info("--request.files = {0}".format(request.files))
+		app.logger.info("file_index:{0}".format(file_index))
+		app.logger.info("request.files:{0}".format(request.files))
 
 		rt_dict = {'error_code':0,'error_reason':'','ack_type':'upload_file_ack','file_index':file_index}
 
@@ -98,7 +98,7 @@ def upload_file():
 			os.makedirs(UPLOAD_FOLDER)
 
 		file = request.files['file']
-		app.logger.info("file is:{0}".format(file.__dict__))
+		app.logger.info("file info:{0}".format(file.__dict__))
 		file.save(os.path.join(UPLOAD_FOLDER,file.filename)) 
 
 		app.logger.info("upload result = {0}".format(rt_dict))

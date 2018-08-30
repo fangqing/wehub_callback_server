@@ -7,15 +7,15 @@ import const
  这个逻辑纯粹是为了节省流量.
 '''
 def get_file_path_by_index(file_index):
-	'''wehub在本地搜索指定的file_index'''
-	return 'd:/20180828104732.jpg';
+	return 'd:/20180828104732.jpg';            #这只是我测试的一个文件,请替换
 
 def uploadFile(file_index):
 	'''模拟wehub上传文件'''
-	url = 'http://127.0.0.1:5678/upload_file'   			#这里替换成第三方自定义的文件上传接口地址
-	file_data={'file':open(get_file_path_by_index(file_index),'rb')}   #替换成你要上传的文件路径
+	url = 'http://127.0.0.1:5678/upload_file'   #这里替换成第三方自定义的文件上传接口地址
+
+	file_data={'file':open(get_file_path_by_index(file_index),'rb')}  
 	post_data = {'file_index':file_index}     
-	
+
 	#fiddler的默认代理是 127.0.0.1:8888,这种方式可以方便的在fiddler中查看http的request
 	#rsp = requests.post(url,files = file_data,data = post_data,proxies ={'http':'127.0.0.1:8888'})  
 	rsp = requests.post(url,files = file_data,data = post_data)

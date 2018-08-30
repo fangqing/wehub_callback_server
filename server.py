@@ -46,24 +46,24 @@ def is_file_index_exist(file_index):
 	'''检查file_index所代表的文件是否已经存在'''
 	return False
 
-'''回调接口,处理基本的业务逻辑'''
+'''
+回调接口,处理基本的业务逻辑
+request的相关属性见 https://blog.csdn.net/claroja/article/details/80691766
+'''
 @app.route('/wehub_api', methods = ['POST'])
 def wehub_api():
 	if request.method=='POST':
-		try:
-			request_object = request.json #demjson.decode(request.data)
-			app.logger.info("json = %s",request_object)
-		except Exception as e:
-			app.logger.info("parse json data error")
-			rsp_dict = {"error_code":1,"error_reason":'数据格式错误',"data":{}}
-			return  demjson.encode(rsp_dict)
-		finally:
-			pass
-
+		request_object = request.json #demjson.decode(request.data)
+		app.logger.info("request json = %s",request_object)
+		
 		appid = request_object.get('appid',None)
 		action = request_object.get('action',None)
 		wxid = request_object.get('wxid',None)
 		req_data_dict = request_object.get('data',{})
+
+		if appid is None or action is None or wxid is None:
+			rsp_dict = {"error_code":1,"error_reason":'参数错误',"data":{}}
+			return  demjson.encode(rsp_dict)
 
 		error_code, error_reason,ack_data = main_req_process(wxid,action,req_data_dict)
 		app.logger.info("ack_data:{0}".format(ack_data))

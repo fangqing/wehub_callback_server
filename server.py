@@ -11,7 +11,6 @@ UPLOAD_FOLDER = 'd:/test_uploads'   #换成服务端的文件存储路径
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.logger.setLevel(logging.INFO)
-#request的属性 见https://blog.csdn.net/claroja/article/details/80691766
 
 #主要的逻辑处理
 def main_req_process(wxid,action,request_data_dict):
@@ -27,15 +26,15 @@ def main_req_process(wxid,action,request_data_dict):
 			if msg_type in const.UPLOADFILE_MSG_TYPES:
 				file_index = msg_unit.get('file_index','')
 				
-				op_code = 0
+				flag = 1
 				if is_file_index_exist(file_index):
-					op_code = 1
+					flag = 0
 
 				task_data ={
 					'task_type':const.TASK_TYPE_UPLOAD_FILE,
 					'task_dict':{
 						'file_index':file_index,
-						'op_code':op_code
+						'flag':flag
 					}
 				}
 				ack_data_dict = {'reply_task_list':[task_data]}
@@ -47,14 +46,12 @@ def is_file_index_exist(file_index):
 	'''检查file_index所代表的文件是否已经存在'''
 	return False
 
-#回调接口
+'''回调接口,处理基本的业务逻辑'''
 @app.route('/wehub_api', methods = ['POST'])
 def wehub_api():
-	app.logger.info("request data is:{0}".format(request.__dict__))
 	if request.method=='POST':
-		app.logger.info('recv data:%s',request.json)
 		try:
-			request_object = demjson.decode(request.get_data())
+			request_object = request.json #demjson.decode(request.data)
 			app.logger.info("json = %s",request_object)
 		except Exception as e:
 			app.logger.info("parse json data error")
@@ -78,12 +75,13 @@ def wehub_api():
 		app.logger.info("recv data is:%s",str(request.get_data()))
 		return "暂时只支持Post方式"
 
-#文件上传接口
+'''文件上传接口,处理客户端上传的文件'''
 @app.route('/upload_file', methods = ['POST'])
 def upload_file():
 	if request.method=='POST':
 		#取出file_index
-		file_index = request.form['file_index']
+		app.logger.info("request.form:{0}".format(request.form))
+		file_index = request.form['file_index']   #从form中提取file_index的值
 		app.logger.info("file_index:{0}".format(file_index))
 		app.logger.info("request.files:{0}".format(request.files))
 
@@ -106,4 +104,4 @@ def upload_file():
 
 
 if __name__ =='__main__':
-	app.run(host = const.BIND_HOST,port = const.BIND_PORT,debug = True)
+	app.run(host ='localhost',port =5678,debug = True)

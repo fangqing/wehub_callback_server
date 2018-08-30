@@ -9,7 +9,7 @@ import io
 def client_post():
 	send_dict = {'action':'xxxxxxx','appid':'12345','wxid':'方清','data':{'xxx':'xxx任何可能的测试数据'}}
 	header_data = {"Content-type":"application/json"}
-	conn = HTTPConnection(const.BIND_HOST,const.BIND_PORT)
+	conn = HTTPConnection('localhost',5678)
 
 	send_buf_data = demjson.encode(send_dict)
 	r = conn.request('post','/wehub_api',body = send_buf_data,headers = header_data)

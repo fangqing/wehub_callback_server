@@ -12,14 +12,14 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.logger.setLevel(logging.INFO)
 
-#主要的逻辑处理
+#主要的逻辑处理(这里只演示了如何处理上报的图片消息,其他的action需自己写)
 def main_req_process(wxid,action,request_data_dict):
 	if wxid is None or action is None:
 		return 1,'参数错误',{}
 
 	app.logger.info("request_data_dict:{0}".format(request_data_dict))
 
-	if action=='report_new_msg':		#上报聊天消息
+	if action=='report_new_msg':		
 		msg_unit = request_data_dict.get('msg',{})
 		if msg_unit:
 			msg_type = msg_unit.get('msg_type',const.MSG_TYPE_INVALID)
@@ -39,6 +39,7 @@ def main_req_process(wxid,action,request_data_dict):
 				}
 				ack_data_dict = {'reply_task_list':[task_data]}
 				return 0,'',ack_data_dict
+
 
 	return 0,'no error',{}
 

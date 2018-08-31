@@ -2,6 +2,7 @@
 
 BIND_HOST = 'localhost'
 BIND_PORT = 5678
+
 #当前api文档里支持的actions,可能会持续增加
 ACTIONS =['login','logout','report_contact','report_new_friend','report_new_msg','pull_task','report_task_result','report_room_member_info','report_room_member_change']
 

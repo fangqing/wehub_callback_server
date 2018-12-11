@@ -100,7 +100,7 @@ def main_req_process(wxid,action,request_data_dict):
 				msg = msg_unit.get("msg","")
 				room_wxid = msg_unit.get("room_wxid","")
 				wxid_from = msg_unit.get("wxid_from","")
-				app.logger.info(" recv chat message:{0},wxid_from:{1}".format(msg,wxid_from))
+				app.logger.info("recv chatmsg:{0},from:{1}".format(msg,wxid_from))
 
 				#测试代码
 				if wxid_from ==const.TEST_WXID and  msg==str('123'):

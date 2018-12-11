@@ -10,12 +10,14 @@ def uploadFile(file_index):
 	'''模拟wehub上传文件'''
 	url = 'http://127.0.0.1:5678/upload_file'   #文件上传接口地址
 
-	file_data={'file':open('d:/20180828104732.jpg','rb')}  
+	#测试代码:换成你要测试上传的文件
+	file_data={'file':open('d:/test.jpg','rb')}    
 	post_data = {'file_index':file_index}     
 
 	#fiddler的默认代理是 127.0.0.1:8888,这种方式可以方便的在fiddler中查看http的request
+
+	#proxies 参数可以留空
 	rsp = requests.post(url,files = file_data,data = post_data,proxies ={'http':'127.0.0.1:8888'})  
-	#rsp = requests.post(url,files = file_data,data = post_data)
 	rt_dict= demjson.decode(rsp.text)
 	print (rt_dict)  
 

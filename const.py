@@ -21,7 +21,7 @@ MSG_TYPE_VIDEO = 0x2B	#视频
 
 
 '''这些类型的消息里需要上传文件'''
-UPLOADFILE_MSG_TYPES = [MSG_TYPE_IMAGE,MSG_TYPE_VOICE,MSG_TYPE_VIDEO]
+UPLOADFILE_MSG_TYPES = [MSG_TYPE_IMAGE,MSG_TYPE_VOICE,MSG_TYPE_VIDEO,4903]
 
 TASK_TYPE_SENDMSG = 1  		#发消息
 TASK_TYPE_KICK = 2  		#踢人
@@ -32,3 +32,8 @@ TASK_TYPE_REMARK_FRIEND = 6
 TASK_TYPE_CHANGE_ROOM_NICKNAME = 7
 TASK_TYPE_QUIT_ROOM = 8
 TASK_TYPE_UPLOAD_FILE = 9
+
+FIX_REQUEST_TYPES = ['login','logout','pull_task']
+SECRET_KEY = "eovBCOX3457@"    #换成自己的secret_key
+TEST_WXID = "wxid_hrtv4z7etgvc22"    #换成自己的测试小号
+UPLOAD_FOLDER = 'd:/test_uploads'     #上传的文件的存放地址,换成服务端的文件存储路径

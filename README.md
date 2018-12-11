@@ -17,4 +17,14 @@
   	演示向回调接口发送业务请求
   uploadFile.py    
     演示文件上传的基本逻辑
+
+
+请把const.py中的SECRET_KEY 换成自己的key,
+如果用小号做测试,请把TEST_WXID成自己的测试小号,并且自行修改代码中的测试逻辑
+
+服务器运行在 http://localhost:5678/ 
+设置回调接口地址为 http://localhost:5678/wehub_api
+文件上传地址为 http://localhost:5678/upload_file
+
+文本消息中静态表情转义对照表:http://wxbs.oss-cn-hangzhou.aliyuncs.com/wehub/Emoji/emoji_index.html
 ```

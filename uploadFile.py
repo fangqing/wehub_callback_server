@@ -9,14 +9,13 @@ import const
 def uploadFile(file_index):
 	'''模拟wehub上传文件'''
 	url = 'http://127.0.0.1:5678/upload_file'   #文件上传接口地址
-
 	#测试代码:换成你要测试上传的文件
+	#实际上wehub会根据file_index去找到对应的文件,进行上传,这里是直接写固定的文件做测试
 	file_data={'file':open('d:/test.jpg','rb')}    
 	post_data = {'file_index':file_index}     
 
 	#fiddler的默认代理是 127.0.0.1:8888,这种方式可以方便的在fiddler中查看http的request
-
-	#proxies 参数可以留空
+	#如果你没有开fiddler,proxies参数请留空
 	rsp = requests.post(url,files = file_data,data = post_data,proxies ={'http':'127.0.0.1:8888'})  
 	rt_dict= demjson.decode(rsp.text)
 	print (rt_dict)  
@@ -49,11 +48,8 @@ def report_image_msg():
 				data_dict = task_item['task_dict']
 				file_index = data_dict.get('file_index',None)
 				print ("file_index = ",file_index)
-				flag = data_dict.get('flag',1)
-				if flag==1:
+				if file_index and len(file_index)>0:
 					uploadFile(file_index)
-				else:
-					pass
 
 if __name__ =='__main__':
 	report_image_msg()

@@ -12,7 +12,7 @@ app = Flask(__name__)
 app.logger.setLevel(logging.INFO)
 
 g_pull_task_id = 0
-#主要的逻辑处理(这里只演示了如何处理上报的图片消息,其他的action需自己写)
+#主要的逻辑处理
 def main_req_process(wxid,action,request_data_dict):
 	app.logger.info("action = {0},data = {1}".format(action,request_data_dict))
 	ack_type = 'common_ack'
@@ -162,7 +162,9 @@ def main_req_process(wxid,action,request_data_dict):
 	return 0,'no error',{},ack_type
 
 def check_index(file_index):
-	'''检查file_index,自行修改逻辑'''
+	'''
+	检查file_index,自行修改逻辑:对于已经存在的file_index,可以不用重复上传
+	'''
 	return True
 
 '''
@@ -190,8 +192,8 @@ def wehub_api():
 		app.logger.info("recv data is:%s",str(request.get_data()))
 		return "<html><body>如果能看到这些内容,说明可以连接到回调接口了,请改用post方式发送</body>"
 
-'''文件上传接口,处理客户端上传的文件'''
-@app.route('/upload_file', methods = ['POST'])
+'''文件上传接口,处理客户端上传的文件,逻辑请自行调整'''
+@app.route('/upload_file', methods = ['POST','Get'])
 def upload_file():
 	if request.method=='POST':
 		#取出file_index
@@ -216,6 +218,8 @@ def upload_file():
 
 		app.logger.info("upload result = {0}".format(rt_dict))
 		return demjson.encode(rt_dict)
+	else:
+		return "<html><body>如果能看到这些内容,说明可以连接到文件上传接口了,请改用post方式发送文件</body>"
 
 if __name__ =='__main__':
 	print("server begin")

@@ -37,12 +37,15 @@ def main_req_process(wxid,action,request_data_dict):
 		return 0,"no error",ack_data_dict,ack_type
 
 	if action=='report_friend_add_request':
-		reply_data = {
+		task_data = {
+			'task_type':const.TASK_TYPE_PASS_FRIEND_VERIFY,
+			task_dict:{
 			"v1":request_data_dict.get("v1"),
 			"v2":request_data_dict.get("v2"),
-			"op_code":1
+			}
 		}
-		return 0,'no error',reply_data,ack_type
+		ack_data_dict = {'reply_task_list':[task_data]}
+		return 0,'',ack_data_dict,ack_type
 
 	if action=='pull_task':
 		#测试代码

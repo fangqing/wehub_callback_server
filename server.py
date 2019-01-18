@@ -39,9 +39,9 @@ def main_req_process(wxid,action,request_data_dict):
 	if action=='report_friend_add_request':
 		task_data = {
 			'task_type':const.TASK_TYPE_PASS_FRIEND_VERIFY,
-			task_dict:{
-			"v1":request_data_dict.get("v1"),
-			"v2":request_data_dict.get("v2"),
+			'task_dict':{
+				"v1":request_data_dict.get("v1"),
+				"v2":request_data_dict.get("v2"),
 			}
 		}
 		ack_data_dict = {'reply_task_list':[task_data]}
@@ -52,14 +52,14 @@ def main_req_process(wxid,action,request_data_dict):
 		global g_pull_task_id
 		g_pull_task_id +=1
 		push_msgunit = {
-			'msg_type':1,
+			'msg_type':const.MSG_TYPE_TEXT,
 			'msg':"pull_task,test msg({0}),[微笑]\uE014".format(g_pull_task_id)
 		}
 
 		task_data = {
 			'task_id':"guid_"+str(g_pull_task_id),
 			'task_data':{
-				'task_type':1,
+				'task_type':const.TASK_TYPE_SENDMSG,
 				"task_dict":{
 					'wxid_to':const.TEST_WXID,
 					"msg_list":[push_msgunit]
@@ -90,7 +90,7 @@ def main_req_process(wxid,action,request_data_dict):
 				paysubtype = msg_unit.get("paysubtype",0)
 				if paysubtype==1 and wxid_to==wxid:
 					task_data ={
-						'task_type':11,
+						'task_type':const.TASK_TYPE_AUTO_ACCOUNT_RECEIVE,		
 						'task_dict':{
 							'transferid':transferid,
 							'wxid_from':wxid_from
@@ -110,17 +110,17 @@ def main_req_process(wxid,action,request_data_dict):
 					reply_task_list =[]
 					if len(room_wxid)>0:
 						push_msgunit1 = {
-							'msg_type':1,
+							'msg_type':const.MSG_TYPE_TEXT,
 							'msg':"群消息自动回复,test\ue537"
 						}
 
 						push_msgunit2 = {
-							'msg_type':3,
+							'msg_type':const.MSG_TYPE_IMAGE,
 							'msg':"https://n.sinaimg.cn/mil/transform/500/w300h200/20180917/OBId-hikxxna1858039.jpg"
 						}
 
 						push_msgunit3 = {
-							'msg_type':49,
+							'msg_type':const.MSG_TYPE_LINK,
 							'link_url':"http://httpd.apache.org/docs/2.4/getting-started.html",
 							"link_title":"title",
 							"link_desc":"hhhhh_desc",
@@ -130,7 +130,7 @@ def main_req_process(wxid,action,request_data_dict):
 						
 						#自动回复群消息
 						test_task1 = {
-							'task_type':1,
+							'task_type':const.TASK_TYPE_SENDMSG,
 							"task_dict":
 							{
 								'wxid_to':room_wxid,
@@ -141,18 +141,18 @@ def main_req_process(wxid,action,request_data_dict):
 						reply_task_list.append(test_task1)
 
 					test_task2 = {
-						"task_type":1,
+						"task_type":const.TASK_TYPE_SENDMSG,
 						"task_dict":
 						{
 							"wxid_to":const.TEST_WXID,
 							"msg_list":
 							[
 								{
-									'msg_type':1,
+									'msg_type':const.MSG_TYPE_TEXT,
 									'msg':"wehub文本表情测试,一个商标,一个男人:\ue537\uE138"
 								},
 								{
-									'msg_type':1,
+									'msg_type':const.MSG_TYPE_TEXT,
 									'msg':"wehub文本表情测试,一个微笑,一个高尔夫:[微笑]\uE014"
 								}
 							]

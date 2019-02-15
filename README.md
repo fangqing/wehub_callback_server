@@ -19,7 +19,8 @@
     演示文件上传的基本逻辑
 
 
-请把const.py中的SECRET_KEY 换成自己的key,请把TEST_WXID 改成自己的测试小号,并且自行修改代码中的测试逻辑,
+请把const.py中的SECRET_KEY 换成自己的key,请把TEST_WXID 改成自己的测试小号,
+并自行调整代码中标有"测试代码"注释的代码段
 
 服务器运行在 http://localhost:5678/ 
 设置回调接口地址为 http://localhost:5678/wehub_api

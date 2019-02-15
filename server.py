@@ -48,7 +48,7 @@ def main_req_process(wxid,action,request_data_dict):
 		return 0,'',ack_data_dict,ack_type
 
 	if action=='pull_task':
-		#测试代码
+		#测试代码,请自行修改
 		global g_pull_task_id
 		g_pull_task_id +=1
 		push_msgunit = {

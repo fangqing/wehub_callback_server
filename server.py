@@ -11,7 +11,7 @@ import hashlib
 app = Flask(__name__)
 app.logger.setLevel(logging.INFO)
 
-g_pull_task_id = 0
+
 #主要的逻辑处理
 def main_req_process(wxid,action,request_data_dict):
 	app.logger.info("action = {0},data = {1}".format(action,request_data_dict))
@@ -20,12 +20,20 @@ def main_req_process(wxid,action,request_data_dict):
 		ack_type = str(action)+'_ack'
 
 	if wxid is None or action is None:
-		return 1,'参数错误',{},ack_type
+		return 1,'param error:acton is None',{},ack_type
 	if action=='login':
 		nonce = request_data_dict.get("nonce","")
 		app.logger.info("nonce = {0}".format(nonce))
 
 		ack_data_dict = {}
+		protocol_dict = {
+			"type":"websocket",
+			"param":{
+				'ws_url':const.WEBSOCKET_URL,
+				'heartbeat_interval':30
+			}
+		}
+		#ack_data_dict.update({'extension_protocol':protocol_dict})
 		#验证签名
 		if len(nonce)>0:
 			nonce_str = str(wxid)+'#'+str(nonce)+'#'+str(const.SECRET_KEY)
@@ -34,7 +42,7 @@ def main_req_process(wxid,action,request_data_dict):
 			app.logger.info("nonce_str = {0},md5 = {1}".format(nonce_str,str(md5_object.hexdigest())))
 			ack_data_dict.update({'signature':str(md5_object.hexdigest())})
 			
-		return 0,"no error",ack_data_dict,ack_type
+		return 0,"",ack_data_dict,ack_type
 
 	if action=='report_friend_add_request':
 		task_data = {
@@ -49,23 +57,8 @@ def main_req_process(wxid,action,request_data_dict):
 
 	if action=='pull_task':
 		#测试代码,请自行修改
-		global g_pull_task_id
-		g_pull_task_id +=1
-		push_msgunit = {
-			'msg_type':const.MSG_TYPE_TEXT,
-			'msg':"pull_task,test msg({0}),[微笑]\uE014".format(g_pull_task_id)
-		}
-
-		task_data = {
-			'task_id':"guid_"+str(g_pull_task_id),
-			'task_data':{
-				'task_type':const.TASK_TYPE_SENDMSG,
-				"task_dict":{
-					'wxid_to':const.TEST_WXID,
-					"msg_list":[push_msgunit]
-				}
-			}
-		}
+		#应该建立一个任务池,每次从任务池中返回一个任务
+		task_data = {}
 		return 0,'',task_data,ack_type
 	if action=='report_new_msg':		
 		msg_unit = request_data_dict.get('msg',{})
@@ -106,7 +99,7 @@ def main_req_process(wxid,action,request_data_dict):
 				app.logger.info("recv chatmsg:{0},from:{1}".format(msg,wxid_from))
 
 				#测试代码
-				if wxid_from ==const.TEST_WXID and  msg==str('123'):
+				if wxid_from ==const.TEST_WXID and  msg==str('fqtest'):
 					reply_task_list =[]
 					if len(room_wxid)>0:
 						push_msgunit1 = {
@@ -229,4 +222,4 @@ if __name__ =='__main__':
 	#服务器运行在 http://localhost:5678/ 
 	#设置回调接口地址为 http://localhost:5678/wehub_api
 	#文件上传地址为 http://localhost:5678/upload_file
-	app.run(host ='localhost',port =5678,debug = True)
+	app.run(host =const.SERVER_HOST,port =const.SERVER_PORT,debug = True)

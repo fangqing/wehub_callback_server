@@ -1,0 +1,1 @@
+nohup python server.py --name  "wehub_http_callback">server.log 2>&1 &

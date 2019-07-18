@@ -34,11 +34,15 @@ TASK_TYPE_QUIT_ROOM = 8
 TASK_TYPE_UPLOAD_FILE = 9
 TASK_TYPE_AUTO_ACCOUNT_RECEIVE = 11
 TASK_TYPE_PASS_FRIEND_VERIFY = 13
-
+TASK_TYPE_REPORT_CONTACT = 14
+TASK_TYPE_CHECK_ZOOM = 15
 S_OK = 0
 S_FAIL = 1
 
 FIX_REQUEST_TYPES = ['login','logout','pull_task']
 SECRET_KEY = "eovBCOX3457@"    #换成自己的secret_key
 TEST_WXID = "wxid_hrtv4z7etgvc22"    #换成自己的测试小号
-UPLOAD_FOLDER = 'd:/test_uploads'     #上传的文件的存放地址,换成服务端的文件存储路径
+UPLOAD_FOLDER = '~/wehub_uploads_folder'     #上传的文件的存放地址,换成服务端的文件存储路径
+SERVER_HOST = '0.0.0.0'
+SERVER_PORT = 5678
+WEBSOCKET_URL = 'ws://192.168.1.200:3456/ws'  # 测试的websocket服务器地址

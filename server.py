@@ -33,7 +33,7 @@ def main_req_process(wxid,action,request_data_dict):
 				'heartbeat_interval':30
 			}
 		}
-		#ack_data_dict.update({'extension_protocol':protocol_dict})
+		ack_data_dict.update({'extension_protocol':protocol_dict})
 		#验证签名
 		if len(nonce)>0:
 			nonce_str = str(wxid)+'#'+str(nonce)+'#'+str(const.SECRET_KEY)
